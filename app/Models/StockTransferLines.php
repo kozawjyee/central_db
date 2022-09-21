@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CustomerOutstandingInvoices extends Model
+class StockTransferLines extends Model
 {
     use HasFactory;
-    protected $table = 'dbo.CustomerOutstandingInvoices';
+
+    protected $table = 'dbo.StockTransferLines';
 }
