@@ -7,6 +7,10 @@ use App\Http\Controllers\CustomerOutstandingInvoicesController;
 use App\Http\Controllers\CustomerPriceHistoryController;
 use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\StockTransferLinesController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ItemDetailsController;
+use App\Http\Controllers\SalesPersonController;
+use App\Http\Controllers\SalesPriceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +32,8 @@ Route::get('customerOustandingInvoices', [CustomerOutstandingInvoicesController:
 Route::get('customerPriceHistory', [CustomerPriceHistoryController::class, 'index']);
 Route::get('stockTransfer', [StockTransferController::class, 'index']);
 Route::get('stockTransferLines', [StockTransferLines::class, 'index']);
+
+Route::get('item' , [ItemController::class , 'index']);
+Route::get('itemDetails', [ItemDetailsController::class , 'index']);
+Route::get('salesPerson' , [SalesPersonController::class , 'index']);
+Route::get('salesPrice' , [SalesPriceController::class , 'index']);
