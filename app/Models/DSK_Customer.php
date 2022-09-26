@@ -100,7 +100,7 @@ class DSK_Customer extends Model
             'base_uri' => $this->deskera->account_url
         ]);
 
-        $response = $client->request('POST', '/rest/v1/master/customer?token'.$this->deskera->token.'&request='.$request);
+        $response = $client->request('POST', '/rest/v1/master/customer?token='.$this->deskera->token.'&request='.$request);
         return Log::channel('deskera')->info($response->getBody()->getContents());
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerOutstandingInvoicesController;
@@ -11,6 +10,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemDetailsController;
 use App\Http\Controllers\SalesPersonController;
 use App\Http\Controllers\SalesPriceController;
+use Illuminate\Support\Facades\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ Route::get('customers', [CustomerController::class, 'index']);
 Route::get('customerOustandingInvoices', [CustomerOutstandingInvoicesController::class, 'index']);
 Route::get('customerPriceHistory', [CustomerPriceHistoryController::class, 'index']);
 Route::get('stockTransfer', [StockTransferController::class, 'index']);
-Route::get('stockTransferLines', [StockTransferLines::class, 'index']);
+Route::get('stockTransferLines', [StockTransferLinesController::class, 'index']);
 
 Route::get('item' , [ItemController::class , 'index']);
 Route::get('itemDetails', [ItemDetailsController::class , 'index']);
