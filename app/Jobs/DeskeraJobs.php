@@ -36,7 +36,7 @@ class DeskeraJobs implements ShouldQueue
     public function handle(DSK_Customer $dsk_customer, DSK_Item $dSK_Item , DSK_Invoice $dSK_Invoice)
     {
         try{
-            $dsk_customer->postCustomer();
+            $dsk_customer->getLastCustomerIdfromDeskera();
             // $dSK_Item->postItem();
             // $dSK_Invoice->postInvoice();
         }catch(Exception $e){

@@ -22,6 +22,8 @@ class DSK_Item extends Model
         $this->token = $deskeraModel->token;
     }
 
+    // https://sg17.accounting.deskera.com/rest/v1/master/product?token=eyJhbGciOiJIUzI1NiIsImNhbGciOiJERUYifQ.eNqqVkpOyc9NzMxTslIqzihPLUlNzigoSVXSUUqtKFCyMjQzNbA0MzQ3NKwFAAAA__8.R5vre3QtAoJOXaTyQ1DWTlXzeajgs7cYao_cEzXzlgM
+
     public function getItemInfo()
     {
         $request = [
@@ -49,7 +51,7 @@ class DSK_Item extends Model
             "isWarehouseForProduct" => "true",
             "isLocationForProduct" => "true"
         ];
-        return json_encode($request);
+        return $request;
     }
 
     public function postItem()
@@ -59,7 +61,7 @@ class DSK_Item extends Model
             'base_uri' => $this->deskera->account_url
         ]);
 
-        $response = $item->request('POST', $this->path . '?token=' . $this->token . '&request=' . $request);
+        $response = $item->request('POST', $this->path . '?token=' . $this->token, ['json' => $request]);
         return Log::channel('deskera')->info($response->getBody()->getContents());
     }
 }
