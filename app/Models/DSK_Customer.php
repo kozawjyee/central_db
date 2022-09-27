@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use App\Models\DeskeraModel;
 use GuzzleHttp\Client;
+use App\Models\Customer;
 
 class DSK_Customer extends Model
 {
@@ -14,6 +15,7 @@ class DSK_Customer extends Model
 
     protected $deskera;
     protected $requestBody;
+    protected $dsk_lastCustomerCode;
 
     public function __construct(DeskeraModel $deskera){
         $this->deskera = $deskera;
@@ -22,7 +24,7 @@ class DSK_Customer extends Model
     public function getCustomerInfo(){
         $request = [
             "username" => "admin",
-            "companyid" => "60bfa037-9865-4d1f-9bea-b6241b38701c",
+            "companyid" => "",
             "userid" => "9a7deb4e-a273-4a5b-b579-7b3691007552",
             "accname" => "Trade Debtors",
             "debitType" => true,
@@ -91,7 +93,7 @@ class DSK_Customer extends Model
                 ]
             ]
         ];
-        return json_encode($request);
+        return $request;
     }
 
     public function postCustomer(){
@@ -100,7 +102,27 @@ class DSK_Customer extends Model
             'base_uri' => $this->deskera->account_url
         ]);
 
-        $response = $client->request('POST', '/rest/v1/master/customer?token='.$this->deskera->token.'&request='.$request);
+        $response = $client->request('POST', '/rest/v1/master/customer?token='.$this->deskera->token, [
+            'json' => $request
+        ]);
         return Log::channel('deskera')->info($response->getBody()->getContents());
+    }
+
+    public function getLastCustomerIdfromDeskera(){
+        $client = new Client([
+            'base_uri' => $this->deskera->account_url
+        ]);
+
+        $response = $client->request('GET', '/rest/v1/master/customer?request={cdomain:shwetechinternal}&token='.$this->deskera->token);
+        $result = json_decode($response->getBody()->getContents(), true);
+        $lastIndex = $result['totalCount'] - 1;
+        $lastCustomerId = $result['data'][$lastIndex]['customercode'];
+        $this->dsk_lastCustomerCode = $lastCustomerId;
+        return Log::channel('deskera')->info($lastCustomerId);
+    }
+
+
+    public function getAddedCustomer(){
+
     }
 }

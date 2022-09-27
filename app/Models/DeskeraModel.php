@@ -37,6 +37,8 @@ class DeskeraModel extends Model
         $this->retry = env('HTTP_RETRY');
         $this->timeout = env('HTTP_TIMEOUT');
         $this->cdomain = env('DESKERA_CODOMAIN');
+
+        $this->generateToken();
     }
 
     public function generateToken(){

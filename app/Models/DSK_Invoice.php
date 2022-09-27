@@ -12,13 +12,11 @@ class DSK_Invoice extends Model
 {
     use HasFactory;
     protected $deskera;
-    protected $token;
     protected $path;
 
     public function __construct(DeskeraModel $deskeraModel)
     {
         $this->deskera = $deskeraModel;
-        $this->token = $deskeraModel->token;
         $this->path = '/rest/v1/transaction/invoice';
     }
 
@@ -31,11 +29,11 @@ class DSK_Invoice extends Model
             "duedate" => "Apr 30, 2022 11:30:00 AM",
             "sequenceformatvalue" => "INV000000",
             "invoicenumber" => "REST_SO_05",
-            "includeprotax" => "true",
-            "gstIncluded" => "true",
+            "includeprotax" => true,
+            "gstIncluded" => true,
             "costcentervalue" => "Cost Center Two",
             "salespersonvalue" => "Person 1",
-            "paymentmethodname" => "CB Bank",
+            "paymentmethodname" => "KBZ Bank",
             "invoicedetail" => [
                 "discountispercent" => "",
                 "taxamount" => "",
@@ -56,23 +54,25 @@ class DSK_Invoice extends Model
                 "fieldlabel" => "Global_Text",
                 "value" => "ABC"
             ],
-            "incash" => "false",
-            "customervalue" => "C000031",
+            "incash" => false,
+            "customervalue" => "C001",
             "currencyvalue" => "MMK",
-            "cdomain" => "shwetechpte",
+            "cdomain" => "shwetechinternal",
             "invoicedate" => "April 25, 2022 10:30:00 AM",
 
         ];
-        return json_encode($request);
+        return $request;
     }
 
     public function postInvoice() {
         $request = $this->getInvoiceInfo();
-        $invoice = new Client([
+        $client = new Client([
             'base_uri' => $this->deskera->account_url
         ]);
 
-        $response = $invoice->request('POST', $this->path . '?request=' . $request . '&token=' . $this->token );
+        $response = $client->request('POST', $this->path.'?token='.$this->deskera->token, [
+            'json' => $request
+        ]);
         return Log::channel('deskera')->info($response->getBody()->getContents());
     }
 }
