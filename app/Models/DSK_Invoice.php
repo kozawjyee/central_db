@@ -80,23 +80,18 @@ class DSK_Invoice extends Model
     public function getLastInvoiceIdfromDeskera()
     {
         $client = new Client([
-            'base_=uri' => $this->deskera->account_url
+            'base_uri' => $this->deskera->account_url
         ]);
 
-        $response = $client->request('GET', $this->path . '?token=' . $this->deskera->token, [
-            'json' => [
-                "cdomain" => "testerp",
-                "username" => "admin",
-                "startdate" => "Jan 01, 2018",
-                "enddate" => "Dec 31, 2019 ",
-                "start" => "0",
-                "limit" => "5",
-                "getlineItemDetailsflag" => "true",
-                "isdefaultHeaderMap" => "true",
-                "searchvalue" => "SI148"
-            ]
-        ]);
+        $response = $client->request('GET', $this->path . '?request={"cdomain":"shwetechinternal"}&token=' .$this->deskera->token);
+        $result = json_decode($response->getBody()->getContents(), true);
+        $lastIndex = $result['totalCount'] -1;
+        $lastCustomerId = $result['data'][$lastIndex]['customercode'];
+        
+        return Log::channel('deskera')->info($lastCustomerId);
+    }
 
-        return Log::channel('deskera')->info($response->getBody()->getContents());
+    public function InvoicetoOntheGo() {
+
     }
 }
