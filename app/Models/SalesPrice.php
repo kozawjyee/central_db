@@ -10,4 +10,5 @@ class SalesPrice extends Model
     use HasFactory;
     
     protected $table = 'dbo.SalesPrice';
+
 }

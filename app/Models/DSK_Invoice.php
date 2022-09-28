@@ -83,15 +83,18 @@ class DSK_Invoice extends Model
             'base_uri' => $this->deskera->account_url
         ]);
 
-        $response = $client->request('GET', $this->path . '?request={"cdomain":"shwetechinternal"}&token=' .$this->deskera->token);
+        $response = $client->request('GET', $this->path . '?request={"cdomain":"shwetechinternal"}&token=' . $this->deskera->token);
         $result = json_decode($response->getBody()->getContents(), true);
-        $lastIndex = $result['totalCount'] -1;
+        $lastIndex = $result['totalCount'] - 1;
         $lastCustomerId = $result['data'][$lastIndex]['customercode'];
-        
         return Log::channel('deskera')->info($lastCustomerId);
+        // return $result;
     }
 
-    public function InvoicetoOntheGo() {
+    // public function InvoicetoOntheGo() {
+    //     $results = $this->getLastInvoiceIdfromDeskera();
 
-    }
+    //     return Log::channel('deskera')->info($results);
+
+    // }
 }

@@ -37,8 +37,9 @@ class DeskeraJobs implements ShouldQueue
     {
         try{
             // $dsk_customer->getLastCustomerIdfromDeskera();
+            $dSK_Item->getLastItemIdfromDeskera();
             // $dSK_Item->postItem();
-            $dSK_Invoice->getLastInvoiceIdfromDeskera();
+            // $dSK_Invoice->InvoicetoOntheGo();
         }catch(Exception $e){
             Log::channel('deskera')->info($e);
         }

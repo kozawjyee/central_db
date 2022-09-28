@@ -64,4 +64,17 @@ class DSK_Item extends Model
         $response = $item->request('POST', $this->path . '?token=' . $this->token, ['json' => $request]);
         return Log::channel('deskera')->info($response->getBody()->getContents());
     }
+
+    public function getLastItemIdfromDeskera()
+    {
+        $client = new Client([
+            'base_uri' => $this->deskera->account_url
+        ]);
+
+        $response = $client->request('GET', $this->path . '?request={cdomain:shwetechinternal}&token='.$this->token);
+        $result = json_decode($response->getBody()->getContents(), true);
+        // $lastIndex = $result['totalCount'] - 1;
+        // $lastCustomerId = $result['data'][$lastIndex]['customercode'];
+        return Log::channel('deskera')->info($result);
+    }
 }
